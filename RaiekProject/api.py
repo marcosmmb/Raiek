@@ -6,14 +6,12 @@ from rpc import NodeParser
 class getNewSeed(Resource):
     def post(self):
         seed = parser.returnNewSeed()
-        res = {"seed":seed}
-        return jsonify(res)
+        return jsonify(seed)
 
 class getNewWallet(Resource):
     def post(self):
         wallet = parser.returnNewWallet()
-        res = {"wallet":wallet}
-        return jsonify(res) 
+        return jsonify(wallet)
 
 class getNewAccountSet(Resource):
     def post(self):

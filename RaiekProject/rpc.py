@@ -284,7 +284,7 @@ class NodeParser:
 
     def returnNewSeed(self):
         seed = node.generateSeed()
-        return seed
+        return {"seed":seed}
 
     def returnNewWallet(self):
         wallet = node.walletCreate()
@@ -387,7 +387,6 @@ class NodeParser:
         return node.history(block)
     #end checkBlockHistory
 
-#Testing
 #------------------------------------------------------#
 
 config_parser = SafeConfigParser()
@@ -396,19 +395,3 @@ uri = config_parser.get("rai_node","uri")
 
 node = RaiNode(uri)
 node_parser = NodeParser()
-
-#log = node_parser.returnAccountBalance("xrb_14tw7j4jj4t5kedatqh5z9k8wiu1tcsamagkqcjyboroa3wramipbphya5d4")
-
-#log = node_parser.sendXrb("0C83BE48EA530E1E7823BEE419CA6A79DEC3F2AF636EFE483866D2CE9BF744AF", "xrb_3gaywkgws7n847h8k1413583jqhqsxdd94kowc646zhr5psqey44t3rsu6kq", "xrb_1k5a4p8xq4ohy1aobouaait5ztxy3i5whcd5g51kbuc7tpqd9jq1m3zkub8i", "100")
-
-#log = node_parser.receiveAllXrb("0C83BE48EA530E1E7823BEE419CA6A79DEC3F2AF636EFE483866D2CE9BF744AF")
-
-#log = node_parser.getRepresentative("0C83BE48EA530E1E7823BEE419CA6A79DEC3F2AF636EFE483866D2CE9BF744AF")
-
-#log = node_parser.setRepresentative("0C83BE48EA530E1E7823BEE419CA6A79DEC3F2AF636EFE483866D2CE9BF744AF", "xrb_1hza3f7wiiqa7ig3jczyxj5yo86yegcmqk3criaz838j91sxcckpfhbhhra1")
-
-#log = node_parser.checkBlockHistory("2730BDAFDE7276AA29425CD2D37717132A9C9C481EA2341E11144C7E392AB0EE")["history"][0]["amount"]
-
-#log = node_parser.createNewAccount("D5042EABC1F8D3F084F2CCC0C5E1F221F875DB05E3267AF833C40BB13D4C0BE1", "0C83BE48EA530E1E7823BEE419CA6A79DEC3F2AF636EFE483866D2CE9BF744AF", 10)
-
-#print(log)
