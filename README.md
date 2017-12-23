@@ -190,5 +190,9 @@ Note: the http://127.0.0.1:5000/ default url may be changed depending on where y
 
 *Translates Rai to raw.*
 
+----
+
+If you want to donate, please send any amount of XRB to this account: **xrb_1wy4fokob9b6d3mohj5j7yn15tndgo3djwwmw65xk7nzspeku7s89s6pfdam**
+
  
 
