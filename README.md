@@ -34,7 +34,12 @@ Finally, the PRIVATE KEY is, just like in Bitcoin system, used to sign transacti
 
 **Setting up:**
 
-In order to use the API functions you must setup some configurations. First of all you need to edit the /RaiekProject/config.ini file:
+First of all, you must clone the project in your computer or server:
+
+    $ git clone https://github.com/marcosmmb/Raiek.git
+    $ cd Raiek
+
+In order to use the API functions you must setup some configurations. Edit the /RaiekProject/config.ini file:
 
     [rai_node]
     uri = http://127.0.0.1:7076
