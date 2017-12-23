@@ -1,4 +1,4 @@
-Raiek
+﻿Raiek
 =====
 
 **Raiek is an open source RaiBlocks wallet, designed to be fast and free of fees.**
@@ -42,6 +42,10 @@ In order to use the API functions you must setup some configurations. First of a
 The "uri" field is the default IP that you should change if you want to run it in a separated node or to connect to a third party node (the port 7076 is default for rai_node).
 
 If you don't have a node yet, you can check how to setup your own node [here](https://github.com/clemahieu/raiblocks/wiki/Build-rai_node-samples) and launch it as a service [here](https://github.com/clemahieu/raiblocks/wiki/Running-rai_node-as-a-service).
+
+To run the service locally, you must run the following command inside the main folder:
+
+    $ cd RaiekProject && python3 api.py
 
 ----
 
