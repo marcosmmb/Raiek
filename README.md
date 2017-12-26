@@ -17,6 +17,8 @@ First of all, we need to establish 6 main structures that are important to under
  4. PRIVATE KEY
  5. PUBLIC KEY
  6. ACCOUNT SET
+ 
+ ![Structure](https://github.com/NaelsonDouglas/Raiek/blob/master/Images/structure.png)
 
 The WALLET is a *local*  storage of what I like to call ACCOUNT SET, an ACCOUNT SET contains the ACCOUNT NUMBER, the PRIVATE KEY and the PUBLIC KEY. Each account set is unique, it means that an ACCOUNT NUMBER is always together with its PRIVATE KEY and its PUBLIC KEY, and those can never be with another ACCOUNT NUMBER. This is guaranteed by a deterministic algorithm. 
 
