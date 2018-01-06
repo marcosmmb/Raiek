@@ -3,6 +3,9 @@ import json
 import random
 from configparser import SafeConfigParser
 
+MAX_INDEX = 18446744073709551615
+MIN_INDEX = -18446744073709551615
+
 class RaiNode():
 
     def __init__(self, uri):
@@ -216,55 +219,65 @@ class RaiNode():
         return self.sendRpcRequest(request)
     #end history
 
+    def validateAccountNumber(self, account):
+        action = "validate_account_number"
+
+        request = '''{ "action":"%s", "account":"%s" }''' % (action, account)
+
+        return self.sendRpcRequest(request)
+    #end validateAccountNumber
+
+        
+
 
 
 class NodeParser:
 
     def returnMraiFromRaw(self, amount):
         if(not amount.isnumeric()):
-            return {"message":"ERROR"}
+            return {"message":"Amount must be numeric"}
         elif(int(amount) < 0):
-            return {"message":"ERROR"}
+            return {"message":"Amount mustn't be negative"}
         r = node.mraiFromRaw(amount)
         return {"result":r["amount"]}
 
     def returnMraiToRaw(self, amount):
         if(not amount.isnumeric()):
-            return {"message":"ERROR"}
+            return {"message":"Amount must be numeric"}
         elif(int(amount) < 0):
-            return {"message":"ERROR"}
+            return {"message":"Amount mustn't be negative"}
         r = node.mraiToRaw(amount)
         return {"result":r["amount"]}
 
     def returnKraiFromRaw(self, amount):
         if(not amount.isnumeric()):
-            return {"message":"ERROR"}
+            return {"message":"Amount must be numeric"}
         elif(int(amount) < 0):
-            return {"message":"ERROR"}
+            return {"message":"Amount mustn't be negative"}
         r = node.kraiFromRaw(amount)
         return {"result":r["amount"]}
 
     def returnKraiToRaw(self, amount):
         if(not amount.isnumeric()):
-            return {"message":"ERROR"}
+            return {"message":"Amount must be numeric"}
         elif(int(amount) < 0):
-            return {"message":"ERROR"}
+            return {"message":"Amount mustn't be negative"}
         r = node.kraiToRaw(amount)
         return {"result":r["amount"]}
 
     def returnRaiFromRaw(self, amount):
         if(not amount.isnumeric()):
-            return {"message":"ERROR"}
+            return {"message":"Amount must be numeric"}
         elif(int(amount) < 0):
-            return {"message":"ERROR"}
+            return {"message":"Amount mustn't be negative"}
         r = node.raiFromRaw(amount)
         return {"result":r["amount"]}
 
     def returnRaiToRaw(self, amount):
         if(not amount.isnumeric()):
-            return {"message":"ERROR"}
+            return {"message":"Amount must be numeric"}
         elif(int(amount) < 0):
-            return {"message":"ERROR"}
+            return {"message":"Amount mustn't be negative"}
         r = node.raiToRaw(amount)
         return {"result":r["amount"]}
 
@@ -292,14 +305,26 @@ class NodeParser:
 
     def createWalletSet(self, seed, wallet_number, index):
         #Creates a wallet set with 5 important tokens, must be saved
+        #if(index.isnumeric() == False and index > MAX_INDEX):
+    
+        if(index.isnumeric() and int(index) > MAX_INDEX and int(index) < MIN_INDEX):
+            return {"message":"The index is invalid"}
+
         try:
             dk = node.deterministicKey(seed, index)
-            private = dk["private"]
-            public = dk["public"]
             account = dk["account"]
-            self.insertAccountInWallet(wallet_number, private)
         except:
-            return {"message":"ERROR"}
+            return {"message":"The seed is invalid"}
+
+        private = dk["private"]
+        public = dk["public"]
+        account = dk["account"]
+        
+        try:
+            r = self.insertAccountInWallet(wallet_number, private)
+            key = r["key"]
+        except:
+            return {"message":"The wallet number is invalid"}
         
         wset = { "seed":seed, "wallet":wallet_number, "private":private, "public":public, "account":account }
 
@@ -311,10 +336,13 @@ class NodeParser:
             json = node.walletAdd(wallet, private)
             try:
                 key = json["account"]
-                return {"message":"OK"}
+                if(private == "" or private.isnumeric()):
+                    return {"message":"The private key is invalid"}
+                else:
+                    return {"key":key}
             except:
                 key = json["error"]
-                return {"message":"ERROR"}
+                return {"message":"The wallet number is invalid"}
         except:
             return {"message":"ERROR"}
 

@@ -19,7 +19,14 @@ class getNewAccountSet(Resource):
         wallet = request.form["wallet_value"]
         index = request.form["index_value"]
         accountSet = parser.createWalletSet(seed, wallet, index)
-        return jsonify(accountSet)
+        abort_bool = False
+        try:
+            message = accountSet["message"]
+            abort_bool = True
+        except:
+            return jsonify(accountSet)
+        if(abort_bool):
+            abort(400, message)
 
 class getNewAccount(Resource):
     def post(self):
@@ -34,7 +41,14 @@ class setAccountInWallet(Resource):
         wallet = request.form["wallet_value"]
         private = request.form["private_value"]
         r = parser.insertAccountInWallet(wallet, private)
-        return jsonify(r)
+        abort_bool = False
+        try:
+            message = r["message"]
+            abort_bool = True
+        except:
+            return jsonify(r)
+        if(abort_bool):
+            abort(400, message)
 
 class setReceiveAllBlocks(Resource):
     def post(self):
@@ -74,37 +88,79 @@ class getMraiFromRaw(Resource):
     def post(self):
         amount = request.form["amount_value"]
         r = parser.returnMraiFromRaw(amount)
-        return jsonify(r)
+        abort_bool = False
+        try:
+            message = r["message"]
+            abort_bool = True
+        except:
+            return jsonify(r)
+        if(abort_bool):
+            abort(400, message)
 
 class getMraiToRaw(Resource):
     def post(self):
         amount = request.form["amount_value"]
         r = parser.returnMraiToRaw(amount)
-        return jsonify(r)
+        abort_bool = False
+        try:
+            message = r["message"]
+            abort_bool = True
+        except:
+            return jsonify(r)
+        if(abort_bool):
+            abort(400, message)
 
 class getKraiFromRaw(Resource):
     def post(self):
         amount = request.form["amount_value"]
         r = parser.returnKraiFromRaw(amount)
-        return jsonify(r)
+        abort_bool = False
+        try:
+            message = r["message"]
+            abort_bool = True
+        except:
+            return jsonify(r)
+        if(abort_bool):
+            abort(400, message)
 
 class getKraiToRaw(Resource):
     def post(self):
         amount = request.form["amount_value"]
         r = parser.returnKraiToRaw(amount)
-        return jsonify(r)
+        abort_bool = False
+        try:
+            message = r["message"]
+            abort_bool = True
+        except:
+            return jsonify(r)
+        if(abort_bool):
+            abort(400, message)
 
 class getRaiFromRaw(Resource):
     def post(self):
         amount = request.form["amount_value"]
         r = parser.returnRaiFromRaw(amount)
-        return jsonify(r)
+        abort_bool = False
+        try:
+            message = r["message"]
+            abort_bool = True
+        except:
+            return jsonify(r)
+        if(abort_bool):
+            abort(400, message)
 
 class getRaiToRaw(Resource):
     def post(self):
         amount = request.form["amount_value"]
         r = parser.returnRaiToRaw(amount)
-        return jsonify(r)
+        abort_bool = False
+        try:
+            message = r["message"]
+            abort_bool = True
+        except:
+            return jsonify(r)
+        if(abort_bool):
+            abort(400, message)
 
 #------------------------------------------------------#
 
