@@ -87,7 +87,7 @@ Note: the http://127.0.0.1:5000/ default url may be changed depending on where y
 
 >  - http://127.0.0.1:5000/get_block_count
 
-*Returns the total counted and unchecked bloks on node.* 
+*Returns the total counted and unchecked blocks on node.* 
 
 ----
  
