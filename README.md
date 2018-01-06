@@ -84,6 +84,12 @@ Note: the http://127.0.0.1:5000/ default url may be changed depending on where y
 *Just like the /get_new_seed endpoint, this one generates a new wallet number to locally store account sets. This one connects to the blockchain though.*
 
 ----
+
+>  - http://127.0.0.1:5000/get_block_count
+
+*Returns the total counted and unchecked bloks on node.* 
+
+----
  
 >  - http://127.0.0.1:5000/get_new_account_set
 > 	 - seed_value
@@ -148,6 +154,13 @@ Note: the http://127.0.0.1:5000/ default url may be changed depending on where y
 > 	 - account_value
 
 *Checks an account balance. Doesn't need any permission.*
+
+----
+
+>  - http://127.0.0.1:5000/get_wallet_balances
+> 	 - wallet_value
+
+*Gets the balances of every wallet accounts.* 
 
 ----
 
