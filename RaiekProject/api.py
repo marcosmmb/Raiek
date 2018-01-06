@@ -162,6 +162,25 @@ class getRaiToRaw(Resource):
         if(abort_bool):
             abort(400, message)
 
+class getBlockCount(Resource):
+    def post(self):
+        blocks = parser.returnBlockCount()
+        return jsonify(blocks)
+
+class getWalletBalances(Resource):
+    def post(self):
+        wallet = request.form["wallet_value"]
+        r = parser.returnWalletBalances(wallet)
+        abort_bool = False
+        try:
+            message = r["message"]
+            abort_bool = True
+        except:
+            return jsonify(r)
+        if(abort_bool):
+            abort(400, message)
+
+
 #------------------------------------------------------#
 
 app = Flask(__name__)
@@ -185,6 +204,8 @@ api.add_resource(getKraiFromRaw, "/get_krai_from_raw")
 api.add_resource(getKraiToRaw, "/get_krai_to_raw")
 api.add_resource(getRaiFromRaw, "/get_rai_from_raw")
 api.add_resource(getRaiToRaw, "/get_rai_to_raw")
+api.add_resource(getBlockCount, "/get_block_count")
+api.add_resource(getWalletBalances, "/get_wallet_balances")
 
 if __name__ == "__main__":
     app.run()

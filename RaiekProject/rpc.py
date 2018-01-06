@@ -220,6 +220,7 @@ class RaiNode():
     #end history
 
     def validateAccountNumber(self, account):
+        #Check whether account is a valid account number
         action = "validate_account_number"
 
         request = '''{ "action":"%s", "account":"%s" }''' % (action, account)
@@ -227,7 +228,24 @@ class RaiNode():
         return self.sendRpcRequest(request)
     #end validateAccountNumber
 
-        
+    def blockCount(self):
+        #Reports the number of blocks in the ledger and unchecked synchronizing blocks
+        action = "block_count"
+
+        request = '''{ "action":"%s"}''' % (action)
+
+        return self.sendRpcRequest(request)
+    #end blockCount
+
+    def walletBalances(self, wallet):
+        #Returns how many rai is owned and how many have not yet been received by all accounts in wallet
+        action = "wallet_balances"
+
+        request = '''{ "action":"%s", "wallet":"%s" }''' % (action, wallet)
+
+        return self.sendRpcRequest(request)
+    #end walletBalances
+
 
 
 
@@ -414,6 +432,24 @@ class NodeParser:
         #Returns a block history
         return node.history(block)
     #end checkBlockHistory
+
+    def returnBlockCount(self):
+        #Returns a tuple with blocks and pending blocks
+        t = node.blockCount()
+        count = t["count"]
+        unchecked = t["unchecked"]
+        return {"count":count, "unchecked":unchecked}
+    #end returnBlockCount
+
+    def returnWalletBalances(self, wallet):
+        #Returns the wallet accounts balances
+        r = node.walletBalances(wallet)
+        try:
+            balances = r["balances"]
+            return r
+        except:
+            return {"message":"The wallet number is invalid"}
+    #end returnWalletBalances
 
 #------------------------------------------------------#
 
