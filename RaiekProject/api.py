@@ -180,6 +180,72 @@ class getWalletBalances(Resource):
         if(abort_bool):
             abort(400, message)
 
+class getAccountHistory(Resource):
+    def post(self):
+        account = request.form["account_value"]
+        count = request.form["count_value"]
+        r = parser.returnAccountHistory(account, count)
+        abort_bool = False
+        try:
+            message = r["message"]
+            abort_bool = True
+        except:
+            return jsonify(r)
+        if(abort_bool):
+            abort(400, message)
+
+class getAccountInformation(Resource):
+    def post(self):
+        account = request.form["account_value"]
+        r = parser.returnAccountInformation(account)
+        abort_bool = False
+        try:
+            message = r["message"]
+            abort_bool = True
+        except:
+            return jsonify(r)
+        if(abort_bool):
+            abort(400, message)
+
+class getWorkGenerate(Resource):
+    def post(self):
+        _hash = request.form["hash_value"]
+        r = parser.returnWorkGenerate(_hash)
+        abort_bool = False
+        try:
+            message = r["message"]
+            abort_bool = True
+        except:
+            return jsonify(r)
+        if(abort_bool):
+            abort(400, message)
+
+class getWorkValidate(Resource):
+    def post(self):
+        work = request.form["work_value"]
+        _hash = request.form["hash_value"]
+        r = parser.returnWorkValidate(work, _hash)
+        abort_bool = False
+        try:
+            message = r["message"]
+            abort_bool = True
+        except:
+            return jsonify(r)
+        if(abort_bool):
+            abort(400, message)
+
+class setSendBlockWithWork(Resource):
+    def post(self):
+        wallet = request.form["wallet_value"]
+        source = request.form["source_value"]
+        destination = request.form["destination_value"]
+        amount = request.form["amount_value"]
+        work = request.form["work_value"]
+        log = parser.sendXrbWithWork(wallet, source, destination, amount, work)
+        return jsonify(log)
+        
+        
+
 
 #------------------------------------------------------#
 
@@ -206,6 +272,12 @@ api.add_resource(getRaiFromRaw, "/get_rai_from_raw")
 api.add_resource(getRaiToRaw, "/get_rai_to_raw")
 api.add_resource(getBlockCount, "/get_block_count")
 api.add_resource(getWalletBalances, "/get_wallet_balances")
+api.add_resource(getAccountHistory, "/get_account_history")
+api.add_resource(getAccountInformation, "/get_account_information")
+api.add_resource(setSendBlockWithWork, "/set_send_block_with_work")
+api.add_resource(getWorkGenerate, "/get_work_generate")
+api.add_resource(getWorkValidate, "/get_work_validate")
+
 
 if __name__ == "__main__":
     app.run()

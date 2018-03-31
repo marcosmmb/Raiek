@@ -6,6 +6,12 @@ from configparser import SafeConfigParser
 MAX_INDEX = 18446744073709551615
 MIN_INDEX = -18446744073709551615
 
+#Account history
+#Account information
+#Offline signing (create block)
+#Work generate
+#Work validate
+
 class RaiNode():
 
     def __init__(self, uri):
@@ -136,7 +142,7 @@ class RaiNode():
         request = '''{ "action":"%s", "wallet":"%s", "source":"%s", "destination":"%s", "amount":"%s" }''' % (action, wallet, source, destination, amount)
 
         return self.sendRpcRequest(request)
-    #end receive
+    #end send
 
     def mraiFromRaw(self, amount):
         #Divide a raw amount down by the Mrai ratio.
@@ -246,7 +252,50 @@ class RaiNode():
         return self.sendRpcRequest(request)
     #end walletBalances
 
+    def accountHistory(self, account, count):
+        #Reports send/receive information for a account
+        action = "account_history"
 
+        request = request = '''{ "action":"%s", "account":"%s", "count":"%s" }''' % (action, account, count)
+
+        return self.sendRpcRequest(request)
+    #end accountHistory
+
+    def acccountInformation(self, account):
+        #Returns frontier, open block, change representative block, balance, last modified timestamp from local database & block count for account
+        action = "account_info"
+
+        request = '''{ "action":"%s", "account":"%s" }''' % (action, account)
+
+        return self.sendRpcRequest(request)
+    #end accountInformation
+
+    def sendWithWork(self, wallet, source, destination, amount, work):
+        #Send amount from source in wallet to destination with precomputed PoW
+        action = "send"
+
+        request = '''{ "action":"%s", "wallet":"%s", "source":"%s", "destination":"%s", "amount":"%s", "work":"%s" }''' % (action, wallet, source, destination, amount, work)
+
+        return self.sendRpcRequest(request)
+    #end sendWithWork
+
+    def workGenerate(self, _hash):
+        #Generates work for block
+        action = "work_generate"
+
+        request = '''{ "action":"%s", "hash":"%s" }''' % (action, _hash)
+
+        return self.sendRpcRequest(request)
+    #end workGenerate
+
+    def workValidate(self, work, _hash):
+        #Check whether work is valid for block
+        action = "work_validate"
+
+        request = '''{ "action":"%s", "work":"%s", "hash":"%s" }''' % (action, work, _hash)
+
+        return self.sendRpcRequest(request)
+    #end workValidate
 
 
 class NodeParser:
@@ -450,6 +499,57 @@ class NodeParser:
         except:
             return {"message":"The wallet number is invalid"}
     #end returnWalletBalances
+
+    def returnAccountHistory(self, account, count):
+        #Returns the account history
+        r = node.accountHistory(account, count)
+        try:
+            history = r["history"]
+            return r
+        except:
+            return {"message":"The account is invalid"}
+    #end returnAccountHistory
+
+    def returnAccountInformation(self, account):
+        #Returns the account information
+        r = node.acccountInformation(account)
+        try:
+            frontier = r["frontier"]
+            return r
+        except:
+            return {"message":"The account is invalid"}
+    #end returnAccountInformation
+
+    def returnWorkGenerate(self, _hash):
+        #Returns the work for the hash
+        r = node.workGenerate(_hash)
+        try:
+            work = r["work"]
+            return work
+        except:
+            return {"message":"The hash is invalid"}
+    #end returnWorkGenerate
+
+    def returnWorkValidate(self, work, _hash):
+        #Validates the work for the hash
+        r = node.workValidate(work, _hash)
+        try:
+            valid = r["valid"]
+            return valid
+        except:
+            return {"message":"The hash is invalid"}
+    #end returnWorkValidate
+
+    def sendXrbWithWork(self, wallet, source, destination, amount, work):
+        #Sends a value from a source to a destination, returns the block, the amount and the accounts as a log using precomputed PoW
+        block = node.sendWithWork(wallet, source, destination, amount, work)
+        try: 
+            block = block["block"]
+            log = { "block":block, "amount":amount, "source":source, "destination":destination }
+        except:
+            log = block
+        return log
+    #end sendXrbWithWork
 
 #------------------------------------------------------#
 

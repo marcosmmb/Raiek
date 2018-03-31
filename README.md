@@ -207,6 +207,47 @@ Note: the http://127.0.0.1:5000/ default url may be changed depending on where y
 
 ----
 
+> - http://127.0.0.1:5000/set_send_block_with_work
+> 	 - wallet_value
+> 	 - source_value
+> 	 - destination_value
+> 	 - amount_value
+>    - work_value
+
+*Sets a send block with precomputed PoW.*
+
+----
+
+>  - http://127.0.0.1:5000/get_account_history
+> 	 - account_value
+> 	 - count_value
+
+*Returns the account history.*
+
+----
+
+>  - http://127.0.0.1:5000/get_account_information
+> 	 - account_value
+
+*Returns the account information.*
+
+----
+
+>  - http://127.0.0.1:5000/get_work_generate
+> 	 - hash_value
+
+*Returns the value of the work for the hash.*
+
+----
+
+>  - http://127.0.0.1:5000/get_work_validate
+>    - work_value
+> 	 - hash_value
+
+*Validates the work for the hash*
+
+----
+
 If you want to donate, please send any amount of XRB to this account: **xrb_1wy4fokob9b6d3mohj5j7yn15tndgo3djwwmw65xk7nzspeku7s89s6pfdam**
 
  
