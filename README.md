@@ -1,7 +1,7 @@
 ﻿Raiek
 =====
 
-**Raiek is an open source RaiBlocks wallet, designed to be fast and free of fees.**
+**Raiek is an open source Nano wallet API, designed to be fast and feeless.**
 
 -----
 
@@ -22,11 +22,11 @@ First of all, we need to establish 6 main structures that are important to under
 
 The WALLET is a *local*  storage of what I like to call ACCOUNT SET, an ACCOUNT SET contains the ACCOUNT NUMBER, the PRIVATE KEY and the PUBLIC KEY. Each account set is unique, it means that an ACCOUNT NUMBER is always together with its PRIVATE KEY and its PUBLIC KEY, and those can never be with another ACCOUNT NUMBER. This is guaranteed by a deterministic algorithm. 
 
-The SEED generates deterministically a infinity number of ACCOUNT SETS, the SEED will always generate the same array of ACCOUNT SETS, it just depends on the index.
+The SEED generates deterministically a huge amount of ACCOUNT SETS, the SEED will always generate the same array of ACCOUNT SETS, it just depends on the index.
 
-For instance, when you generate an ACCOUNT SET using your SEED with index 0, this will generate the ACCOUNT SET "x". When you generate a new one with the index 1, the ACCOUNT SET "y" is generated. If you generate again using index 0, the ACCOUNT SET "x" will reappear. So the SEED can be thought as a infinity list of ACCOUNT SETS.
+For instance, when you generate an ACCOUNT SET using your SEED with index 0, this will generate the ACCOUNT SET "x". When you generate a new one with the index 1, the ACCOUNT SET "y" is generated. If you generate again using index 0, the ACCOUNT SET "x" will reappear. So the SEED can be thought as a big list of ACCOUNT SETS.
 
-Since the WALLET is a *local* storage of ACCOUNT SETS, when you generate a new ACCOUNT SET using your SEED, you must add this ACCOUNT SET to your local WALLET. Note that you can add more than one ACCOUNT SET in a single WALLET, even if those are from different SEEDS.
+Since the WALLET is a *local* storage of ACCOUNT SETS, when you generate a new ACCOUNT SET using your SEED, you must add this ACCOUNT SET to your local WALLET. Note that you can add more than one ACCOUNT SET into a single WALLET, even if those are from different SEEDS.
 
 The ACCOUNT NUMBER is that "xrb_" address that we usually use to receive or transfer coins from a person to another, or between wallets. The ACCOUNT NUMBER pretty much makes the PUBLIC KEY sort of useless, so we don't need to worry about it.
 
