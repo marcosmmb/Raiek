@@ -7,11 +7,10 @@ import sys
 STOP_TH = False
 POW = ""
 GINC = 0
+THREADS_AMOUNT = 12
 
 class Th(Thread): # threads to calculate the pow
 	def __init__ (self, num, _hash):
-		sys.stdout.write("Making thread number " + str(num) + "n\n")
-		sys.stdout.flush()
 		Thread.__init__(self)
 		self.num = num
 		self._hash = _hash
@@ -66,31 +65,33 @@ def pow_validate(pow, hash): # validates the pow/hash pair
 	
 	return pow_threshold(final)
 	
-def pow_generate(_hash): # main flow
+def pow_generate(_hash, verbose = False): # main flow
 
-	tn = 12
 	ths = []
 
-	print(_hash)
-	print("Starting proof of work calculation...")
+	if verbose:
+		print("hash: " + str(_hash))
+		print("Starting proof of work calculation...")
 
 	init = time.time()
 	
-	for i in range(tn):
+	for i in range(THREADS_AMOUNT):
+		if verbose:
+			print("Making thread number " + str(i))
 		ths.append(Th(i, _hash))
 		ths[i].start()
 
-	for x in ths:
-	     x.join()
+	for t in ths:
+	     t.join()
 
 	end = time.time()
 	et = end - init
 
-	print("work:")
-	print(POW)
-	print("iterations: " + str(GINC))
-	print("execution time: " + str(et))
-	print("rate: " + str(int(GINC/et)) + " iterations per second" )
+	if verbose:
+		print("work:" + str(POW))
+		print("iterations: " + str(GINC))
+		print("execution time: " + str(et))
+		print("rate: " + str(int(GINC/et)) + " iterations per second")
 
 
 #--------------------------------------------------------------------------#
