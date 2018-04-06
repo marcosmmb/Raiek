@@ -24,24 +24,24 @@ class Th(Thread): # threads to calculate the pow
 		was = False
 		inc = 0
 		while not test:
-				GINC += 1
-				inc += 1
-				random_bytes = bytearray((random.getrandbits(8) for i in range(8)))		# generate random array of bytes
-				for r in range(0,256):
-					random_bytes[7] =(random_bytes[7] + r) % 256						# iterate over the last byte of the random bytes
-					h = blake2b(digest_size=8)
-					h.update(random_bytes)
-					h.update(hash_bytes)
-					final = bytearray(h.digest())
-					final.reverse()
-					test = pow_threshold(final)
-					if test: 
-						STOP_TH = True
-						was = True
-						break
-					elif STOP_TH:
-						test = True
-						break
+			GINC += 1
+			inc += 1
+			random_bytes = bytearray((random.getrandbits(8) for i in range(8)))		# generate random array of bytes
+			for r in range(0,256):
+				random_bytes[7] =(random_bytes[7] + r) % 256						# iterate over the last byte of the random bytes
+				h = blake2b(digest_size=8)
+				h.update(random_bytes)
+				h.update(hash_bytes)
+				final = bytearray(h.digest())
+				final.reverse()
+				test = pow_threshold(final)
+				if test: 
+					STOP_TH = True
+					was = True
+					break
+				elif STOP_TH:
+					test = True
+					break
 			
 		random_bytes.reverse()
 		if was:
