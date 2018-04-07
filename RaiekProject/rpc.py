@@ -1,16 +1,11 @@
+from configparser import SafeConfigParser
 import requests
 import json
 import random
-from configparser import SafeConfigParser
+import work
 
 MAX_INDEX = 18446744073709551615
 MIN_INDEX = -18446744073709551615
-
-#Account history
-#Account information
-#Offline signing (create block)
-#Work generate
-#Work validate
 
 class RaiNode():
 
@@ -297,6 +292,15 @@ class RaiNode():
         return self.sendRpcRequest(request)
     #end workValidate
 
+    def representativesOnline(self):
+        #Returns a list of online representatives
+        action = "representatives_online"
+
+        request = '''{ "action":"%s"}''' % (action)
+
+        return self.sendRpcRequest(request)
+    #end representativesOnline
+
 
 class NodeParser:
 
@@ -307,6 +311,7 @@ class NodeParser:
             return {"message":"Amount mustn't be negative"}
         r = node.mraiFromRaw(amount)
         return {"result":r["amount"]}
+    #end returnMraiFromRaw
 
     def returnMraiToRaw(self, amount):
         if(not amount.isnumeric()):
@@ -315,6 +320,7 @@ class NodeParser:
             return {"message":"Amount mustn't be negative"}
         r = node.mraiToRaw(amount)
         return {"result":r["amount"]}
+    #end returnMraiToRaw
 
     def returnKraiFromRaw(self, amount):
         if(not amount.isnumeric()):
@@ -323,6 +329,7 @@ class NodeParser:
             return {"message":"Amount mustn't be negative"}
         r = node.kraiFromRaw(amount)
         return {"result":r["amount"]}
+    #end returnKraiFromRaw
 
     def returnKraiToRaw(self, amount):
         if(not amount.isnumeric()):
@@ -331,6 +338,7 @@ class NodeParser:
             return {"message":"Amount mustn't be negative"}
         r = node.kraiToRaw(amount)
         return {"result":r["amount"]}
+    #end returnKraiToRaw
 
     def returnRaiFromRaw(self, amount):
         if(not amount.isnumeric()):
@@ -339,6 +347,7 @@ class NodeParser:
             return {"message":"Amount mustn't be negative"}
         r = node.raiFromRaw(amount)
         return {"result":r["amount"]}
+    #end returnRaiFromRaw
 
     def returnRaiToRaw(self, amount):
         if(not amount.isnumeric()):
@@ -347,6 +356,7 @@ class NodeParser:
             return {"message":"Amount mustn't be negative"}
         r = node.raiToRaw(amount)
         return {"result":r["amount"]}
+    #end returnRaiToRaw
 
     def returnAccountBalance(self, account):
         #Returns an account balance as a string
@@ -365,10 +375,12 @@ class NodeParser:
     def returnNewSeed(self):
         seed = node.generateSeed()
         return {"seed":seed}
+    #end returnNewSeed
 
     def returnNewWallet(self):
         wallet = node.walletCreate()
         return wallet
+    #end returnNewWallet
 
     def createWalletSet(self, seed, wallet_number, index):
         #Creates a wallet set with 5 important tokens, must be saved
@@ -412,6 +424,7 @@ class NodeParser:
                 return {"message":"The wallet number is invalid"}
         except:
             return {"message":"ERROR"}
+        #end insertAccountInWallet
 
     def createNewAccount(self, seed, wallet, index):
         dk = node.deterministicKey(seed, index)
@@ -540,8 +553,24 @@ class NodeParser:
             return {"message":"The hash is invalid"}
     #end returnWorkValidate
 
+    def returnWorkGenerateThreading(self, _hash):
+        if not work.hash_validate(_hash):
+            return {"message":"The hash is invalid"}
+        
+        w = work.pow_generate(_hash)
+        return {"work":w}
+    #end returnWorkGenerateThreading 
+
+
     def sendXrbWithWork(self, wallet, source, destination, amount, work):
         #Sends a value from a source to a destination, returns the block, the amount and the accounts as a log using precomputed PoW
+
+        inf = node.acccountInformation(source)
+        frontier = inf["frontier"]
+
+        if node.workValidate(work, frontier)["valid"] == "0":
+            return {"message": "Invalid work"}
+
         block = node.sendWithWork(wallet, source, destination, amount, work)
         try: 
             block = block["block"]
@@ -550,6 +579,15 @@ class NodeParser:
             log = block
         return log
     #end sendXrbWithWork
+
+    def returnsOnlineRepresentatives(self):
+        #Returns a list of pairs of online representative accounts that have voted recently and empty strings
+        
+        representatives = node.representativesOnline()
+        return representatives
+    #end returnsOnlineRepresentatives
+
+
 
 #------------------------------------------------------#
 

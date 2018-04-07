@@ -63,7 +63,7 @@ The API is made using [python 3](https://www.python.org/) and [flask](http://fla
 These are the packages that you need to install before running the application:
 
     $ python3 -m pip install update
-    $ python3 -m pip install requests configparser flask flask_restful flask_jsonpify
+    $ python3 -m pip install requests configparser flask flask_restful flask_jsonpify pyblake2
 
 ----
 
@@ -240,6 +240,13 @@ Note: the http://127.0.0.1:5000/ default url may be changed depending on where y
 
 ----
 
+>  - http://127.0.0.1:5000/get_work_generate_threading
+> 	 - hash_value
+
+*Returns the value of the work for the hash using multiples threads.*
+
+----
+
 >  - http://127.0.0.1:5000/get_work_validate
 >    - work_value
 > 	 - hash_value
@@ -248,7 +255,10 @@ Note: the http://127.0.0.1:5000/ default url may be changed depending on where y
 
 ----
 
-If you want to donate, please send any amount of XRB to this account: **xrb_1wy4fokob9b6d3mohj5j7yn15tndgo3djwwmw65xk7nzspeku7s89s6pfdam**
+>  - http://127.0.0.1:5000/get_online_representatives
 
- 
+*Returns a list of online representatives*
 
+----
+
+If you want to donate, please send any amount of XRB to this account: **xrb_39pushkegc4951a4gynaoq786epnf4spwcb66tq5fcopzou8fexp3zixjtun**

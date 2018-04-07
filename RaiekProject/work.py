@@ -7,7 +7,6 @@ import sys
 STOP_TH = False
 POW = ""
 GINC = 0
-THREADS_AMOUNT = 12
 
 class Th(Thread): # threads to calculate the pow
 	def __init__ (self, num, _hash):
@@ -47,14 +46,27 @@ class Th(Thread): # threads to calculate the pow
 		if was:
 			POW = random_bytes.hex()
 
-def pow_threshold(check):
+def hash_validate(_hash): # validates the hash string
+	if not isinstance(_hash, str):
+		return False
+	
+	if len(_hash) != 64:
+		return False
+	
+	for c in _hash:
+		if not c in ["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"]:
+			return False
+
+	return True
+
+def pow_threshold(check): # checks if the pow string is bigger than threshold
 	if check > b'\xFF\xFF\xFF\xC0\x00\x00\x00\x00': 
 		return True
 	return False
 
-def pow_validate(pow, hash): # validates the pow/hash pair
+def pow_validate(pow, _hash): # validates the pow/hash pair
 	pow_data = bytearray.fromhex(pow)
-	hash_data = bytearray.fromhex(hash)
+	hash_data = bytearray.fromhex(_hash)
 	
 	h = blake2b(digest_size=8)
 	pow_data.reverse()
@@ -65,7 +77,7 @@ def pow_validate(pow, hash): # validates the pow/hash pair
 	
 	return pow_threshold(final)
 	
-def pow_generate(_hash, verbose = False): # main flow
+def pow_generate(_hash, verbose = False, threads_amount = 8): # main flow for pow generate
 
 	ths = []
 
@@ -75,7 +87,7 @@ def pow_generate(_hash, verbose = False): # main flow
 
 	init = time.time()
 	
-	for i in range(THREADS_AMOUNT):
+	for i in range(threads_amount):
 		if verbose:
 			print("Making thread number " + str(i))
 		ths.append(Th(i, _hash))
@@ -92,12 +104,5 @@ def pow_generate(_hash, verbose = False): # main flow
 		print("iterations: " + str(GINC))
 		print("execution time: " + str(et))
 		print("rate: " + str(int(GINC/et)) + " iterations per second")
-
-
-#--------------------------------------------------------------------------#
-
-#_hash = "718CC2121C3E641059BC1C2CFC45666C99E8AE922F7A807B7D07B62C995D79E2"
-
-#pow_generate(_hash)
 
 
