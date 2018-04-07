@@ -84,8 +84,7 @@ def pow_generate(_hash, verbose = False, threads_amount = 8): # main flow for po
 	if verbose:
 		print("hash: " + str(_hash))
 		print("Starting proof of work calculation...")
-
-	init = time.time()
+		init = time.time()
 	
 	for i in range(threads_amount):
 		if verbose:
@@ -96,13 +95,14 @@ def pow_generate(_hash, verbose = False, threads_amount = 8): # main flow for po
 	for t in ths:
 	     t.join()
 
-	end = time.time()
-	et = end - init
-
 	if verbose:
+		end = time.time()
+		et = end - init
 		print("work:" + str(POW))
 		print("iterations: " + str(GINC))
 		print("execution time: " + str(et))
 		print("rate: " + str(int(GINC/et)) + " iterations per second")
+
+	return POW
 
 

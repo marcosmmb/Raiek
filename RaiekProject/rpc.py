@@ -557,8 +557,7 @@ class NodeParser:
         if not work.hash_validate(_hash):
             return {"message":"The hash is invalid"}
         
-        work.pow_generate(_hash)
-        w = work.POW
+        w = work.pow_generate(_hash)
         return {"work":w}
     #end returnWorkGenerateThreading 
 
