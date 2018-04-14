@@ -1,22 +1,22 @@
 from configparser import SafeConfigParser
 import requests
 import json
-import random
 import work
+import functions
 
 MAX_INDEX = 18446744073709551615
 MIN_INDEX = -18446744073709551615
 
 class RaiNode():
 
-    def __init__(self, uri):
+    def __init__(self, uri, docker):
         self.uri = uri
+        self.docker = docker
 
     def generateSeed(self):
         #Generates a seed randomly
 
-        full_wallet_seed = hex(random.SystemRandom().getrandbits(256))
-        wallet_seed = full_wallet_seed[2:].upper()
+        wallet_seed = functions.generate_seed()
 
         return wallet_seed
     #end generateSeed
@@ -229,24 +229,6 @@ class RaiNode():
         return self.sendRpcRequest(request)
     #end validateAccountNumber
 
-    def blockCount(self):
-        #Reports the number of blocks in the ledger and unchecked synchronizing blocks
-        action = "block_count"
-
-        request = '''{ "action":"%s"}''' % (action)
-
-        return self.sendRpcRequest(request)
-    #end blockCount
-
-    def walletBalances(self, wallet):
-        #Returns how many rai is owned and how many have not yet been received by all accounts in wallet
-        action = "wallet_balances"
-
-        request = '''{ "action":"%s", "wallet":"%s" }''' % (action, wallet)
-
-        return self.sendRpcRequest(request)
-    #end walletBalances
-
     def accountHistory(self, account, count):
         #Reports send/receive information for a account
         action = "account_history"
@@ -303,6 +285,15 @@ class RaiNode():
 
 
 class NodeParser:
+
+    def restartDocker(self):
+        docker_id = node.docker
+        r = functions.restart_docker(docker_id)
+        if r:
+            return {"message":"Docker successfully restarted"}
+        else:
+            return {"message":"Couldn't restart docker"}
+    #end restartDocker
 
     def returnMraiFromRaw(self, amount):
         if(not amount.isnumeric()):
@@ -594,6 +585,7 @@ class NodeParser:
 config_parser = SafeConfigParser()
 config_files = config_parser.read('config.ini')
 uri = config_parser.get("rai_node","uri")
+docker = config_parser.get("rai_node", "docker")
 
-node = RaiNode(uri)
+node = RaiNode(uri, docker)
 node_parser = NodeParser()

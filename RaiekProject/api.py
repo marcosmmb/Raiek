@@ -3,6 +3,12 @@ from flask_restful import Resource, Api
 from flask_jsonpify import jsonify
 from rpc import NodeParser
 
+
+class restartDocker(Resource):
+    def post(self):
+        message = parser.restartDocker()
+        return jsonify(message)
+
 class getNewSeed(Resource):
     def post(self):
         seed = parser.returnNewSeed()
@@ -269,6 +275,8 @@ app = Flask(__name__)
 api = Api(app)
 
 parser = NodeParser()
+
+api.add_resource(restartDocker, "/restart_docker")
 
 api.add_resource(getNewSeed, "/get_new_seed")
 api.add_resource(getNewWallet, "/get_new_wallet")
