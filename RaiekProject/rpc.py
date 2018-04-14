@@ -40,6 +40,15 @@ class RaiNode():
         return self.sendRpcRequest(request)
     #end blockCount
 
+    def nodeVersion(self):
+        #Retrieve de node versions
+        action = "version"
+
+        request = '''{ "action":"%s" }''' % (action)
+
+        return self.sendRpcRequest(request)
+    #end nodeVersion
+
     def deterministicKey(self, seed, index):
         #Derive deterministic keypair from seed based on index
         action = "deterministic_key"
@@ -493,6 +502,16 @@ class NodeParser:
         unchecked = t["unchecked"]
         return {"count":count, "unchecked":unchecked}
     #end returnBlockCount
+
+    def returnNodeVersion(self):
+        #Returns the node versions
+        t = node.nodeVersion()
+        rpc_version = t["rpc_version"]
+        store_version = t["store_version"]
+        node_vendor = t["node_vendor"]
+        return {"rpc_version":rpc_version, "store_version":store_version, "node_vendor":node_vendor}
+    #end returnNodeVersion
+
 
     def returnWalletBalances(self, wallet):
         #Returns the wallet accounts balances

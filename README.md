@@ -90,6 +90,12 @@ Note: the http://127.0.0.1:5000/ default url may be changed depending on where y
 *Returns the total counted and unchecked blocks on node.* 
 
 ----
+
+>  - http://127.0.0.1:5000/get_node_version
+
+*Returns node versions.* 
+
+----
  
 >  - http://127.0.0.1:5000/get_new_account_set
 > 	 - seed_value

@@ -173,6 +173,11 @@ class getBlockCount(Resource):
         blocks = parser.returnBlockCount()
         return jsonify(blocks)
 
+class getNodeVersion(Resource):
+    def post(self):
+        version = parser.returnNodeVersion()
+        return jsonify(version)
+
 class getWalletBalances(Resource):
     def post(self):
         wallet = request.form["wallet_value"]
@@ -295,6 +300,7 @@ api.add_resource(getKraiToRaw, "/get_krai_to_raw")
 api.add_resource(getRaiFromRaw, "/get_rai_from_raw")
 api.add_resource(getRaiToRaw, "/get_rai_to_raw")
 api.add_resource(getBlockCount, "/get_block_count")
+api.add_resource(getNodeVersion, "/get_node_version")
 api.add_resource(getWalletBalances, "/get_wallet_balances")
 api.add_resource(getAccountHistory, "/get_account_history")
 api.add_resource(getAccountInformation, "/get_account_information")
@@ -303,6 +309,9 @@ api.add_resource(getWorkGenerate, "/get_work_generate")
 api.add_resource(getWorkGenerateThreading, "/get_work_generate_threading")
 api.add_resource(getWorkValidate, "/get_work_validate")
 api.add_resource(getOnlineRepresentatives, "/get_online_representatives")
+
+
+
 
 
 if __name__ == "__main__":
