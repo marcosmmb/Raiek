@@ -9,10 +9,9 @@ MIN_INDEX = -18446744073709551615
 
 class RaiNode():
 
-    def __init__(self, uri, docker):
+    def __init__(self, uri):
         self.uri = uri
-        self.docker = docker
-
+        
     def generateSeed(self):
         #Generates a seed randomly
 
@@ -294,15 +293,6 @@ class RaiNode():
 
 
 class NodeParser:
-
-    def restartDocker(self):
-        docker_id = node.docker
-        r = functions.restart_docker(docker_id)
-        if r:
-            return {"message":"Docker successfully restarted"}
-        else:
-            return {"message":"Couldn't restart docker"}
-    #end restartDocker
 
     def returnMraiFromRaw(self, amount):
         if(not amount.isnumeric()):
@@ -604,7 +594,6 @@ class NodeParser:
 config_parser = SafeConfigParser()
 config_files = config_parser.read('config.ini')
 uri = config_parser.get("rai_node","uri")
-docker = config_parser.get("rai_node", "docker")
 
-node = RaiNode(uri, docker)
+node = RaiNode(uri)
 node_parser = NodeParser()
